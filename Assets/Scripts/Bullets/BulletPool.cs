@@ -30,16 +30,9 @@ namespace CosmicCuration.Bullets
                     pooledBullet.isUsed = true;
                     return pooledBullet.bullet;
                 }
-                else
-                {
-                    return CreateNewBullet();
-                }
-
             }
-            else
-            {
-                return CreateNewBullet();
-            }
+            return CreateNewBullet();
+            
         }
 
         public BulletController CreateNewBullet()
@@ -49,6 +42,12 @@ namespace CosmicCuration.Bullets
             bullet.isUsed = true;
             pooledBullets.Add(bullet);
             return bullet.bullet;
+        }
+
+        public void ReturnToBulletPool(BulletController bulletController)
+        {
+            PooledBullet pooledBullet = pooledBullets.Find(item => item.bullet.Equals(bulletController));
+            pooledBullet.isUsed = false;
         }
     }
 }
