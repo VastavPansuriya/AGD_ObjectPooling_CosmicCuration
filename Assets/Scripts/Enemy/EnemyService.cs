@@ -7,8 +7,8 @@ namespace CosmicCuration.Enemy
     public class EnemyService
     {
         #region Dependencies
-        private EnemyView enemyPrefab;
         private EnemyScriptableObject enemyScriptableObject;
+        private EnemyPool enemyPool;
         #endregion
 
         #region Variables
@@ -22,9 +22,8 @@ namespace CosmicCuration.Enemy
         #region Initialization
         public EnemyService(EnemyView enemyPrefab, EnemyScriptableObject enemyScriptableObject)
         {
-            enemyPool = new EnemyPool(enemyPrefab,enemyScriptableObject.enemyData);
-            this.enemyPrefab = enemyPrefab;
             this.enemyScriptableObject = enemyScriptableObject;
+            enemyPool = new EnemyPool(enemyPrefab, enemyScriptableObject.enemyData);
             InitializeVariables();
         }
 
@@ -62,9 +61,7 @@ namespace CosmicCuration.Enemy
 
         private void SpawnEnemyAtPosition(Vector2 spawnPosition, EnemyOrientation enemyOrientation)
         {
-
             EnemyController spawnedEnemy = enemyPool.GetEnemy();
-            
             spawnedEnemy.Configure(spawnPosition, enemyOrientation);
         }
 
@@ -114,10 +111,8 @@ namespace CosmicCuration.Enemy
 
         public void SetEnemySpawning(bool setActive) => isSpawning = setActive;
 
-        public void ReturnToEnemyPool(EnemyController enemyController)
-        {
-            enemyPool.ReturnToEnemyPool(enemyController);
-        }
+        public void ReturnEnemyToPool(EnemyController enemyToReturn) => enemyPool.ReturnObj(enemyToReturn);
+
     }
 
     public enum EnemyOrientation

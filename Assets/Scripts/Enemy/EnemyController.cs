@@ -35,6 +35,7 @@ namespace CosmicCuration.Enemy
             currentHealth = enemyData.maxHealth;
             speed = Random.Range(enemyData.minimumSpeed, enemyData.maximumSpeed);
             movementTimer = enemyData.movementDuration;
+            enemyView.gameObject.SetActive(true);
         }
 
         private void SetEnemyOrientation(EnemyOrientation orientation)
@@ -107,8 +108,8 @@ namespace CosmicCuration.Enemy
             GameService.Instance.GetUIService().IncrementScore(enemyData.scoreToGrant);
             GameService.Instance.GetSoundService().PlaySoundEffects(SoundType.EnemyDeath);
             GameService.Instance.GetVFXService().PlayVFXAtPosition(VFXType.EnemyExplosion, enemyView.transform.position);
-            GameService.Instance.GetEnemyService().ReturnToEnemyPool(this);
             enemyView.gameObject.SetActive(false);
+            GameService.Instance.GetEnemyService().ReturnEnemyToPool(this);
         }
 
         private enum EnemyState

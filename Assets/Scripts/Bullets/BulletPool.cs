@@ -1,54 +1,21 @@
-﻿using System.Collections.Generic;
+
+using CosmicCuration.Utilities;
 
 namespace CosmicCuration.Bullets
 {
-    public class BulletPool
+    public class BulletPool : GenericObjectPool<BulletController>
     {
-            private class PooledBullet
-            {
-                public BulletController bullet;
-                public bool isUsed;
-            }
+        private BulletView bulletPrefab;
+        private BulletScriptableObject bulletSO;
 
-            private BulletView bulletView;
-            private BulletScriptableObject bulletScriptableObject;
-            private List<PooledBullet> pooledBullets = new List<PooledBullet>();
+        public BulletPool(BulletView bulletPrefab, BulletScriptableObject bulletSO)
+        {
+            this.bulletPrefab = bulletPrefab;
+            this.bulletSO = bulletSO;
+        }
 
-            public BulletPool(BulletView bulletView, BulletScriptableObject bulletScriptableObject)
-            {
-                this.bulletView = bulletView;
-                this.bulletScriptableObject = bulletScriptableObject;
-            }
+        public BulletController GetBullet() => GetObj();
 
-            public BulletController GetBullet()
-            {
-                if (pooledBullets.Count > 0)
-                {
-                    PooledBullet pooledBullet = pooledBullets.Find(item => !item.isUsed);
-                    if (pooledBullet != null)
-                    {
-                        pooledBullet.isUsed = true;
-                        return pooledBullet.bullet;
-                    }
-                }
-                return CreateNewBullet();
-            
-            }
-
-            public BulletController CreateNewBullet()
-            {
-                PooledBullet bullet = new PooledBullet();
-                bullet.bullet = new BulletController(bulletView, bulletScriptableObject);
-                bullet.isUsed = true;
-                pooledBullets.Add(bullet);
-                return bullet.bullet;
-            }
-
-            public void ReturnToBulletPool(BulletController bulletController)
-            {
-                PooledBullet pooledBullet = pooledBullets.Find(item => item.bullet.Equals(bulletController));
-                pooledBullet.isUsed = false;
-            }
+        protected override BulletController CreateObj() => new BulletController(bulletPrefab, bulletSO);
     }
 }
-

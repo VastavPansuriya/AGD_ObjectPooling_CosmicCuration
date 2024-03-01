@@ -1,56 +1,21 @@
-﻿using CosmicCuration.Bullets;
+using CosmicCuration.Utilities;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace CosmicCuration.Enemy
 {
-    public class EnemyPool
+    public class EnemyPool : GenericObjectPool<EnemyController>
     {
-        private class PooledEnemy
-        {
-            public EnemyController enemy;
-            public bool isUsed;
-        }
-
-        private EnemyView enemyView;
+        private EnemyView enemyPrefab;
         private EnemyData enemyData;
 
-        private List<PooledEnemy> pooledEnemies = new List<PooledEnemy>();
-
-        public EnemyPool(EnemyView enemyView, EnemyData enemyData)
+        public EnemyPool(EnemyView enemyPrefab, EnemyData enemyData)
         {
-            this.enemyView = enemyView;
+            this.enemyPrefab = enemyPrefab;
             this.enemyData = enemyData;
         }
 
-        public EnemyController GetEnemy()
-        {
-            if (pooledEnemies.Count > 0)
-            {
-                PooledEnemy pooledEnemy = pooledEnemies.Find(item => !item.isUsed);
-                if (pooledEnemy != null)
-                {
-                    pooledEnemy.isUsed = true;
-                    return pooledEnemy.enemy;
-                }
-            }
-            return CreateNewEnemy();
+        public EnemyController GetEnemy() => GetObj();
 
-        }
-
-        public EnemyController CreateNewEnemy()
-        {
-            PooledEnemy enemy = new PooledEnemy();
-            enemy.enemy = new EnemyController(enemyView,enemyData);
-            enemy.isUsed = true;
-            pooledEnemies.Add(enemy);
-            return enemy.enemy;
-        }
-
-        public void ReturnToEnemyPool(EnemyController bulletController)
-        {
-            PooledEnemy pooledBullet = pooledEnemies.Find(item => item.enemy.Equals(bulletController));
-            pooledBullet.isUsed = false;
-        }
+        protected override EnemyController CreateObj() => new EnemyController(enemyPrefab, enemyData);
     }
 }
