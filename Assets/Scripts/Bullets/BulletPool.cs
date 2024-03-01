@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 namespace CosmicCuration.Bullets
 {
@@ -7,7 +6,7 @@ namespace CosmicCuration.Bullets
     {
         public class PooledBullet
         {
-            public BulletController Controller;
+            public BulletController bullet;
             public bool isUsed;
         }
 
@@ -19,6 +18,37 @@ namespace CosmicCuration.Bullets
         {
             this.bulletView = bulletView;
             this.bulletScriptableObject = bulletScriptableObject;
+        }
+
+        public BulletController GetBullet()
+        {
+            if (pooledBullets.Count > 0)
+            {
+                PooledBullet pooledBullet = pooledBullets.Find(item => !item.isUsed);
+                if (pooledBullet != null)
+                {
+                    pooledBullet.isUsed = true;
+                    return pooledBullet.bullet;
+                }
+                else
+                {
+                    return CreateNewBullet();
+                }
+
+            }
+            else
+            {
+                return CreateNewBullet();
+            }
+        }
+
+        public BulletController CreateNewBullet()
+        {
+            PooledBullet bullet = new PooledBullet();
+            bullet.bullet = new BulletController(bulletView, bulletScriptableObject);
+            bullet.isUsed = true;
+            pooledBullets.Add(bullet);
+            return bullet.bullet;
         }
     }
 }
