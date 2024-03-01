@@ -19,7 +19,7 @@ namespace CosmicCuration.Utilities
         private List<PooledItem<T>> pooledObjects = new List<PooledItem<T>>();
 
 
-        protected T GetItem()
+        protected T GetObj()
         {
             if (pooledObjects.Count > 0)
             {
