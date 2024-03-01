@@ -14,7 +14,9 @@ namespace CosmicCuration.Enemy
         #region Variables
         private bool isSpawning;
         private float currentSpawnRate;
-        private float spawnTimer; 
+        private float spawnTimer;
+
+        private EnemyPool enemyPool;
         #endregion
 
         #region Initialization
@@ -110,6 +112,7 @@ namespace CosmicCuration.Enemy
         public void SetEnemySpawning(bool setActive) => isSpawning = setActive;
 
         public void ReturnEnemyToPool(EnemyController enemyToReturn) => enemyPool.ReturnObj(enemyToReturn);
+
     }
 
     public enum EnemyOrientation

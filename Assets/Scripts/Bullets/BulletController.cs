@@ -34,6 +34,7 @@ namespace CosmicCuration.Bullets
                 GameService.Instance.GetVFXService().PlayVFXAtPosition(VFXType.BulletHitExplosion, bulletView.transform.position);
                 bulletView.gameObject.SetActive(false);
                 GameService.Instance.GetPlayerService().ReturnBulletToPool(this);
+
             }
         }
     }

@@ -27,6 +27,7 @@ namespace CosmicCuration.Enemy
 
         public void Configure(Vector3 positionToSet, EnemyOrientation enemyOrientation)
         {
+            enemyView.gameObject.SetActive(true);
             enemyView.transform.position = positionToSet;
             SetEnemyOrientation(enemyOrientation);
             

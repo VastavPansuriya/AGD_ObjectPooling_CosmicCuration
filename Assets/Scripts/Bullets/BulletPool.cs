@@ -1,3 +1,4 @@
+
 using CosmicCuration.Utilities;
 
 namespace CosmicCuration.Bullets
