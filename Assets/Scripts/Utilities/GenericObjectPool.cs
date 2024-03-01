@@ -10,9 +10,9 @@ namespace CosmicCuration.Utilities
 {
     public class GenericObjectPool<T> where T : class
     {
-        private class PooledItem<T>
+        private class PooledItem<T2>
         {
-            public T item;
+            public T2 item;
             public bool isUsed;
         }
 
@@ -41,7 +41,7 @@ namespace CosmicCuration.Utilities
             return newObj.item;
         }
 
-        public void ReturnItem(T obj)
+        public void ReturnObj(T obj)
         {
             PooledItem<T> pooledObj = pooledObjects.Find(i => i.item.Equals(obj));
             pooledObj.isUsed = false;
