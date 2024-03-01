@@ -41,7 +41,7 @@ namespace CosmicCuration.Utilities
             return newObj.item;
         }
 
-        public void ReturnObj<U>(T obj) where U : T
+        public void ReturnObj(T obj)
         {
             PooledItem<T> pooledObj = pooledObjects.Find(i => i.item.Equals(obj));
             pooledObj.isUsed = false;
