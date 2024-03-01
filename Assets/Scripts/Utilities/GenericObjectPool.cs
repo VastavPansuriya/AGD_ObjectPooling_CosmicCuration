@@ -41,6 +41,12 @@ namespace CosmicCuration.Utilities
             return newObj.item;
         }
 
+        public void ReturnItem(T obj)
+        {
+            PooledItem<T> pooledObj = pooledObjects.Find(i => i.item.Equals(obj));
+            pooledObj.isUsed = false;
+        }
+
         protected virtual T CreateObj()
         {
             throw new NotImplementedException("Child Class is not implemented this method");
